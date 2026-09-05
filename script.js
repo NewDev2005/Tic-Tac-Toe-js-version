@@ -36,4 +36,13 @@ function createCell(){
 }
 
 
+function createPlayer(){
+    let username;
+    const editUsername = (name) => {
+        username = name;
+    }
 
+    const getUsername = () => username;
+
+    return { editUsername, getUsername };
+}
