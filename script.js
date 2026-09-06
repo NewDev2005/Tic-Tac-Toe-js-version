@@ -18,7 +18,7 @@ function gameBoard(){
     const getCellAt = (coord) => {
         board.forEach((row) => {
             row.forEach((cell) => {
-                if (JSON.stringify(cell.getCoord()) === JSON.stringify(coord)){
+                if (cell.getCoord()[0] === mark[0] && cell.getCoord()[1] === cell.getCoord()[1]){
                     return cell;
                 }
             })
@@ -61,6 +61,30 @@ function game(){
     board = gameBoard();
     player1 = createPlayer();
     player2 = createPlayer();
+
+    function checkRows(mark){
+        let matchMark;
+        board.getBoard().forEach((row) => {
+            matchMark = 0;
+            row.forEach((cell) => {
+                if (cell.readMark() === mark){
+                    matchMark++;
+                }
+            })
+            if (matchMark === 3){
+                return true;
+            }
+        })
+    }
+
+
+    function checkColumns(mark){
+        for(let i = 0; i < 3; i++){
+            if (board.getCellAt([0, i]).readMark() === mark && board.getCellAt([1, i]).readMark() === mark && board.getCellAt([2, i]).readMark() === mark) {
+                return true;
+            }
+        }
+    }
 
 }
 
