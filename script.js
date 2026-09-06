@@ -6,28 +6,38 @@ function gameBoard(){
             board.push([]);
             for (let j = 0; j < 3; j++) {
                 cell = createCell();
-                cell.setCoord(`${i},${j}`);
+                cell.setCoord(i);
+                cell.setCoord(j);
                 board[i].push(cell);
             }
         }
     }
-    
-    const getBoard = () => board;
     createGrid();
-    return { getBoard }
+    const getBoard = () => board;
+
+    const getCellAt = (coord) => {
+        board.forEach((row) => {
+            row.forEach((cell) => {
+                if (JSON.stringify(cell.getCoord()) === JSON.stringify(coord)){
+                    return cell;
+                }
+            })
+        })
+    }
+    return { getBoard, getCellAt };
 }
 
 
 function createCell(){
     let mark = "";
-    let coord = ""
+    let coord = [];
     const readMark = () => mark;
     const setMark = (m) => {
         mark = m;
     }
 
     const setCoord = (c) => {
-        coord = c
+        coord.push(c);
     }
 
     const getCoord = () => coord;
@@ -46,3 +56,17 @@ function createPlayer(){
 
     return { editUsername, getUsername };
 }
+
+function game(){
+    board = gameBoard();
+    player1 = createPlayer();
+    player2 = createPlayer();
+
+}
+
+
+// board = gameBoard();
+// newCell = ''
+// arr = [0,2];
+// coord = board.getBoard()[0][2].getCoord();
+// console.log(coord);
