@@ -50,28 +50,48 @@ function createCell(){
 
 function createPlayer(){
     let username;
-    const editUsername = (name) => {
+    let mark;
+    const setUsername = (name) => {
         username = name;
+    }
+
+    const getPlayerMark = () => mark;
+    
+    const setPlayerMark = (m) => {
+        mark = m
     }
 
     const getUsername = () => username;
 
-    return { editUsername, getUsername };
+    return { setUsername, getUsername, getPlayerMark, setPlayerMark };
 }
 
-function game(){
+function displayController(){
     board = gameBoard();
-    player1 = createPlayer();
-    player2 = createPlayer();
+
+    function allCellsMarked(){
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                cell = board.getCellAt([i,j]);
+                if(cell.readMark() === ""){ // condition for checking empty cell
+                    return false;
+                } else{
+                    continue;
+                }
+            }
+        }
+        return true;
+    }
 
     const checkRows = (mark) => {
-        for(let i = 0; i < 2; i++){
-            for(let j = 0; j < 2; j++){
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
                 if (board.getCellAt([i, 0]).readMark() === mark && board.getCellAt([i,1]).readMark() === mark && board.getCellAt([i,2]).readMark() === mark){
                     return true;
                 }
             }
         }
+        return false;
     }
 
 
@@ -81,44 +101,23 @@ function game(){
                 return true;
             }
         }
+        return false;
     }
 
-    return { checkRows, checkColumns };
+    const checkForTie = () => {
+        if ( allCellsMarked() && !checkColumns() && !checkColumns() ){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    const registerMove = (coord, playerObj) => {
+        let cell = board.getCellAt(coord);
+        cell.setMark(playerObj.mark);
+    }
+
+
+    return { checkRows, checkColumns, registerMove, checkForTie };
 
 }
-
-
-board = gameBoard();
-// cell1 = board.getCellAt([0,0]);
-// cell2 = board.getCellAt([0,1]);
-// cell3 = board.getCellAt([0,2]);
-
-// cell1.setMark("O");
-// cell2.setMark("O");
-// cell3.setMark("x");
-
-// function checkColumns(mark) {
-//     for (let i = 0; i < 3; i++) {
-//         if (board.getCellAt([0, i]).readMark() === mark && board.getCellAt([1, i]).readMark() === mark && board.getCellAt([2, i]).readMark() === mark) {
-//             return true;
-//         }
-//     }
-// }
-
-
-// function checkRows(mark) {
-//     for (let i = 0; i < 2; i++) {
-//         for (let j = 0; j < 2; j++) {
-//             if (board.getCellAt([i, 0]).readMark() === mark && board.getCellAt([i, 1]).readMark() === mark && board.getCellAt([i, 2]).readMark() === mark) {
-//                 return true;
-//             }
-//         }
-//     }
-// }
-
-
-// if(checkRows("O")){
-//     console.log("found match");
-// } else{
-//     console.log("no match found");
-// }
