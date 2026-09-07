@@ -16,13 +16,15 @@ function gameBoard(){
     const getBoard = () => board;
 
     const getCellAt = (coord) => {
+        let desiredCell;
         board.forEach((row) => {
             row.forEach((cell) => {
-                if (cell.getCoord()[0] === mark[0] && cell.getCoord()[1] === cell.getCoord()[1]){
-                    return cell;
+                if (cell.getCoord()[0] === coord[0] && cell.getCoord()[1] === coord[1]){
+                    desiredCell = cell;
                 }
             })
         })
+        return desiredCell;
     }
     return { getBoard, getCellAt };
 }
@@ -62,23 +64,18 @@ function game(){
     player1 = createPlayer();
     player2 = createPlayer();
 
-    function checkRows(mark){
-        let matchMark;
-        board.getBoard().forEach((row) => {
-            matchMark = 0;
-            row.forEach((cell) => {
-                if (cell.readMark() === mark){
-                    matchMark++;
+    const checkRows = (mark) => {
+        for(let i = 0; i < 2; i++){
+            for(let j = 0; j < 2; j++){
+                if (board.getCellAt([i, 0]).readMark() === mark && board.getCellAt([i,1]).readMark() === mark && board.getCellAt([i,2]).readMark() === mark){
+                    return true;
                 }
-            })
-            if (matchMark === 3){
-                return true;
             }
-        })
+        }
     }
 
 
-    function checkColumns(mark){
+    const checkColumns = (mark) => {
         for(let i = 0; i < 3; i++){
             if (board.getCellAt([0, i]).readMark() === mark && board.getCellAt([1, i]).readMark() === mark && board.getCellAt([2, i]).readMark() === mark) {
                 return true;
@@ -86,11 +83,42 @@ function game(){
         }
     }
 
+    return { checkRows, checkColumns };
+
 }
 
 
-// board = gameBoard();
-// newCell = ''
-// arr = [0,2];
-// coord = board.getBoard()[0][2].getCoord();
-// console.log(coord);
+board = gameBoard();
+// cell1 = board.getCellAt([0,0]);
+// cell2 = board.getCellAt([0,1]);
+// cell3 = board.getCellAt([0,2]);
+
+// cell1.setMark("O");
+// cell2.setMark("O");
+// cell3.setMark("x");
+
+// function checkColumns(mark) {
+//     for (let i = 0; i < 3; i++) {
+//         if (board.getCellAt([0, i]).readMark() === mark && board.getCellAt([1, i]).readMark() === mark && board.getCellAt([2, i]).readMark() === mark) {
+//             return true;
+//         }
+//     }
+// }
+
+
+// function checkRows(mark) {
+//     for (let i = 0; i < 2; i++) {
+//         for (let j = 0; j < 2; j++) {
+//             if (board.getCellAt([i, 0]).readMark() === mark && board.getCellAt([i, 1]).readMark() === mark && board.getCellAt([i, 2]).readMark() === mark) {
+//                 return true;
+//             }
+//         }
+//     }
+// }
+
+
+// if(checkRows("O")){
+//     console.log("found match");
+// } else{
+//     console.log("no match found");
+// }
