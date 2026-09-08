@@ -8,8 +8,28 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <header id="hero">
-        <h1>Let's Tic-Tac-Toe</h1>
-    </header>
+    <div id="hero">
+        <h1>Tic-Tac-Toe</h1>
+    </div>
+    <div id="main-container">
+        <div id="input-container">
+            <form action="" method="post">
+                <h3>Enter names</h3>
+                <p>
+                    <label for="player1-name">Player1</label>
+                    <input type="text" id="player1-name" name="player1-name">
+                </p>
+            
+                <p>
+                    <label for="player2-name">Player2</label>
+                    <input type="text" id="player2-name" name="player2-name">
+                </p>
+            
+                <p>
+                    <input type="submit" value="Start Game" id="submit" />
+                </p>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
