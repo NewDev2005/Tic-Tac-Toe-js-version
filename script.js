@@ -120,7 +120,7 @@ function displayController(){
     return { checkRows, checkColumns, registerMove, checkForTie };
 }
 
-function UserInput(playerObj1, playerObj2){
+function userInput(playerObj1, playerObj2){
     const startGameBtn = document.querySelector("#submit");
     const inputContainer = document.querySelector("#input-container");
     const form = document.querySelector("#form");
@@ -134,5 +134,40 @@ function UserInput(playerObj1, playerObj2){
         playerObj1.setPlayerMark("X");
         playerObj2.setPlayerMark("O");
         inputContainer.remove();
+        displayBoard();
     });
 }
+
+
+function buildGrid(boardContainer){
+    for(let i = 0; i < 3; i++){
+        row = document.createElement("div");
+        row.setAttribute("id", "row");
+        boardContainer.appendChild(row);
+        for(let i = 0; i < 3; i++){
+            div = document.createElement("div");
+            div.setAttribute("class", "cell");
+            row.appendChild(div)
+        }
+    }
+}
+
+function displayBoard(){
+    boardContainer = document.createElement("div");
+    boardContainer.setAttribute("id", "board-container");
+    mainContainer = document.querySelector("#main-container");
+
+    mainContainer.appendChild(boardContainer);
+    buildGrid(boardContainer);
+    
+}
+
+
+function domController(){
+    player1 = createPlayer();
+    player2 = createPlayer();
+
+    userInput(player1, player2);
+}
+
+domController();
