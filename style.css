@@ -11,7 +11,28 @@ body{
     text-align: center;
     height: 100px;
     width: 1365px;
-    position: absolute;
     padding-top: 20px;
-   
 }
+
+#main-container{
+    text-align: center;
+   margin-left: auto;
+   margin-right: auto;
+   width: 700px;
+   height: 400px;
+   border-style: solid black;
+   padding-top: 20px;
+  
+}
+
+#input-container{
+    width: 450px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#player1{
+    margin: 30px;
+}
+
