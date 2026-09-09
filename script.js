@@ -117,7 +117,22 @@ function displayController(){
         cell.setMark(playerObj.mark);
     }
 
-
     return { checkRows, checkColumns, registerMove, checkForTie };
+}
 
+function UserInput(playerObj1, playerObj2){
+    const startGameBtn = document.querySelector("#submit");
+    const inputContainer = document.querySelector("#input-container");
+    const form = document.querySelector("#form");
+    const playerOneName = form.elements["player1-name"];
+    const playerTwoName = form.elements["player2-name"];
+
+    startGameBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        playerObj1.setUsername(playerOneName.value);
+        playerObj2.setUsername(playerTwoName.value);
+        playerObj1.setPlayerMark("X");
+        playerObj2.setPlayerMark("O");
+        inputContainer.remove();
+    });
 }
