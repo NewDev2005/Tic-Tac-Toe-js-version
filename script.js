@@ -13,9 +13,9 @@ function gameBoard(){
         }
     }
     createGrid();
-    const getBoard = () => board;
+    // const getBoard = () => board;
 
-    const getCellAt = (coord) => {
+    function getCellAt(coord) {
         let desiredCell;
         board.forEach((row) => {
             row.forEach((cell) => {
@@ -26,7 +26,64 @@ function gameBoard(){
         })
         return desiredCell;
     }
-    return { getBoard, getCellAt };
+
+    function allCellsMarked() {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                cell = getCellAt([i, j]);
+                if (cell.readMark() === "") { // condition for checking empty cell
+                    return false;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return true;
+    }
+
+    const checkRows = (mark) => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (getCellAt([i, 0]).readMark() === mark && getCellAt([i, 1]).readMark() === mark && getCellAt([i, 2]).readMark() === mark) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    const checkColumns = (mark) => {
+        for (let i = 0; i < 3; i++) {
+            if (getCellAt([0, i]).readMark() === mark && getCellAt([1, i]).readMark() === mark && getCellAt([2, i]).readMark() === mark) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkDiagonals = (mark) => {
+        if(getCellAt([0,0]).readMark() === mark && getCellAt([1,1]).readMark() === mark && getCellAt([2,2]).readMark() === mark){
+            return true;
+        }
+
+        if (getCellAt([0, 2]).readMark() === mark && getCellAt([1, 1]).readMark() === mark && getCellAt([2, 0]).readMark() === mark) {
+            return true;
+        }
+
+        return false;
+    }
+
+    const modifyCellAt = (coord, mark) => {
+        cell = getCellAt(coord);
+        if(cell.readMark() === ""){
+            cell.setMark(mark);
+        } else{
+            return "can't modify";
+        }
+    }
+
+
+    return { modifyCellAt, checkColumns, checkRows, checkDiagonals };
 }
 
 
@@ -64,60 +121,6 @@ function createPlayer(){
     const getUsername = () => username;
 
     return { setUsername, getUsername, getPlayerMark, setPlayerMark };
-}
-
-function displayController(){
-    board = gameBoard();
-
-    function allCellsMarked(){
-        for(let i = 0; i < 3; i++){
-            for(let j = 0; j < 3; j++){
-                cell = board.getCellAt([i,j]);
-                if(cell.readMark() === ""){ // condition for checking empty cell
-                    return false;
-                } else{
-                    continue;
-                }
-            }
-        }
-        return true;
-    }
-
-    const checkRows = (mark) => {
-        for(let i = 0; i < 3; i++){
-            for(let j = 0; j < 3; j++){
-                if (board.getCellAt([i, 0]).readMark() === mark && board.getCellAt([i,1]).readMark() === mark && board.getCellAt([i,2]).readMark() === mark){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    const checkColumns = (mark) => {
-        for(let i = 0; i < 3; i++){
-            if (board.getCellAt([0, i]).readMark() === mark && board.getCellAt([1, i]).readMark() === mark && board.getCellAt([2, i]).readMark() === mark) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    const checkForTie = () => {
-        if ( allCellsMarked() && !checkColumns() && !checkColumns() ){
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    const registerMove = (coord, playerObj) => {
-        let cell = board.getCellAt(coord);
-        cell.setMark(playerObj.mark);
-    }
-
-    return { checkRows, checkColumns, registerMove, checkForTie };
 }
 
 
@@ -176,5 +179,15 @@ function domController(){
 
 }
 
-game = domController();
-game.userInput();
+// game = domController();
+// game.userInput();
+board = gameBoard();
+board.modifyCellAt([0,0], "X")
+board.modifyCellAt([1,1], "");
+board.modifyCellAt([2,2], "X");
+
+if (board.checkDiagonals("X")){
+    console.log("found a match");
+} else {
+    console.log("no match found");
+}
