@@ -120,54 +120,61 @@ function displayController(){
     return { checkRows, checkColumns, registerMove, checkForTie };
 }
 
-function userInput(playerObj1, playerObj2){
-    const startGameBtn = document.querySelector("#submit");
-    const inputContainer = document.querySelector("#input-container");
-    const form = document.querySelector("#form");
-    const playerOneName = form.elements["player1-name"];
-    const playerTwoName = form.elements["player2-name"];
-
-    startGameBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        playerObj1.setUsername(playerOneName.value);
-        playerObj2.setUsername(playerTwoName.value);
-        playerObj1.setPlayerMark("X");
-        playerObj2.setPlayerMark("O");
-        inputContainer.remove();
-        displayBoard();
-    });
-}
-
-
-function buildGrid(boardContainer){
-    for(let i = 0; i < 3; i++){
-        row = document.createElement("div");
-        row.setAttribute("id", "row");
-        boardContainer.appendChild(row);
-        for(let i = 0; i < 3; i++){
-            div = document.createElement("div");
-            div.setAttribute("class", "cell");
-            row.appendChild(div)
-        }
-    }
-}
-
-function displayBoard(){
-    boardContainer = document.createElement("div");
-    boardContainer.setAttribute("id", "board-container");
-    mainContainer = document.querySelector("#main-container");
-
-    mainContainer.appendChild(boardContainer);
-    buildGrid(boardContainer);
-    
-}
-
 
 function domController(){
+    board = gameBoard();
     player1 = createPlayer();
     player2 = createPlayer();
+    const inputContainer = document.querySelector("#input-container");
+    const mainContainer = document.querySelector("#main-container");
 
-    userInput(player1, player2);
+    function buildGrid(boardContainer) {
+        for (let i = 0; i < 3; i++) {
+            row = document.createElement("div");
+            row.setAttribute("id", "row");
+            boardContainer.appendChild(row);
+            for (let i = 0; i < 3; i++) {
+                div = document.createElement("div");
+                div.setAttribute("class", "cell");
+                row.appendChild(div)
+            }
+        }
+    }
+
+
+    function displayBoard() {
+        boardContainer = document.createElement("div");
+        boardContainer.setAttribute("id", "board-container");
+        // mainContainer = document.querySelector("#main-container");
+
+        mainContainer.appendChild(boardContainer);
+        buildGrid(boardContainer);
+    }
+
+
+    const userInput = () => {
+        const startGameBtn = document.querySelector("#submit");
+        // const inputContainer = document.querySelector("#input-container");
+        const form = document.querySelector("#form");
+        const playerOneName = form.elements["player1-name"];
+        const playerTwoName = form.elements["player2-name"];
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            player1.setUsername(playerOneName.value);
+            player2.setUsername(playerTwoName.value);
+            player1.setPlayerMark("X");
+            player2.setPlayerMark("O");
+            inputContainer.remove();
+            displayBoard();
+        });
+        
+    }
+
+
+    return { userInput };
+
 }
 
-domController();
+game = domController();
+game.userInput();
