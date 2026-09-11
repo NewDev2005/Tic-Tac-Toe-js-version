@@ -46,7 +46,6 @@ body{
     width: 100px;
     height: 100px;
     border: 2px solid black;
-    
 }
 
 #board-container{
@@ -55,4 +54,8 @@ body{
     margin-right: auto;
     margin-top: 50px;
     padding: 20px;
+}
+
+.mark-para{
+    font-size: 35px;
 }
