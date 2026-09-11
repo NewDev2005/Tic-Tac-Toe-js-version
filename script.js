@@ -1,5 +1,6 @@
 function gameBoard(){
     const board = [];
+    const lastModifiedCells = [];
 
     function createGrid(){
         for (let i = 0; i < 3; i++) {
@@ -27,7 +28,19 @@ function gameBoard(){
         return desiredCell;
     }
 
-    function allCellsMarked() {
+    const previousModifiedCellMark = () => {
+        if(lastModifiedCells.length === 0){
+            return "X";
+        }
+
+        if(lastModifiedCells.length === 1){
+            return "O";
+        }
+
+        return lastModifiedCells[lastModifiedCells.length - 2].readMark();
+    }
+
+    const allCellsMarked = () => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 cell = getCellAt([i, j]);
@@ -77,13 +90,14 @@ function gameBoard(){
         cell = getCellAt(coord);
         if(cell.readMark() === ""){
             cell.setMark(mark);
+            lastModifiedCells.push(cell);
         } else{
             return "can't modify";
         }
     }
 
 
-    return { modifyCellAt, checkColumns, checkRows, checkDiagonals };
+    return { modifyCellAt, checkColumns, checkRows, checkDiagonals, allCellsMarked, previousModifiedCellMark };
 }
 
 
@@ -125,9 +139,9 @@ function createPlayer(){
 
 
 function domController(){
-    board = gameBoard();
-    player1 = createPlayer();
-    player2 = createPlayer();
+    const board = gameBoard();
+    const player1 = createPlayer();
+    const player2 = createPlayer();
     const inputContainer = document.querySelector("#input-container");
     const mainContainer = document.querySelector("#main-container");
 
@@ -136,10 +150,14 @@ function domController(){
             row = document.createElement("div");
             row.setAttribute("id", "row");
             boardContainer.appendChild(row);
-            for (let i = 0; i < 3; i++) {
-                div = document.createElement("div");
+            for (let j = 0; j < 3; j++) {
+                let div = document.createElement("div");
+                let markPara = document.createElement("p");
                 div.setAttribute("class", "cell");
-                row.appendChild(div)
+                div.setAttribute("data-coord", `${i},${j}`);
+                markPara.setAttribute("class", "mark-para");
+                row.appendChild(div);
+                div.appendChild(markPara);
             }
         }
     }
@@ -170,24 +188,39 @@ function domController(){
             player2.setPlayerMark("O");
             inputContainer.remove();
             displayBoard();
+            registerMove();
+           
         });
-        
     }
 
+    function registerMove() {
+        const cells = document.querySelectorAll(".cell");
+        
+        cells.forEach((div) => {
+            div.addEventListener("click", attachEvent);
+        });
+    }
+
+    function attachEvent(e){
+        console.log(e.target);
+        e.currentTarget.firstChild.innerHTML = board.previousModifiedCellMark();
+        board.modifyCellAt([Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])], board.previousModifiedCellMark());
+    }
 
     return { userInput };
 
 }
 
-// game = domController();
-// game.userInput();
-board = gameBoard();
-board.modifyCellAt([0,0], "X")
-board.modifyCellAt([1,1], "");
-board.modifyCellAt([2,2], "X");
+game = domController();
+game.userInput();
 
-if (board.checkDiagonals("X")){
-    console.log("found a match");
-} else {
-    console.log("no match found");
-}
+// board = gameBoard();
+// board.modifyCellAt([0,0], "X")
+// board.modifyCellAt([1,1], "");
+// board.modifyCellAt([2,2], "X");
+
+// if (board.checkDiagonals("X")){
+//     console.log("found a match");
+// } else {
+//     console.log("no match found");
+// }
