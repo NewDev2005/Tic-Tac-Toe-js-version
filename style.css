@@ -59,3 +59,9 @@ body{
 .mark-para{
     font-size: 35px;
 }
+
+#btn-container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
