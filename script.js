@@ -240,8 +240,14 @@ function domController(){
 
     function displayMessage(){
         const para = document.querySelector("#message").firstChild;
+
         if (checkWinner()){
             para.innerHTML = checkWinner();
+            return;
+        } 
+
+        if (checkDraw()) {
+            para.innerHTML = `Ehhh Draw!!`;
         } else {
             para.innerHTML = whoseTurn();
         }
@@ -257,6 +263,14 @@ function domController(){
         }
 
         return false
+    }
+
+    function checkDraw(){
+        if (!checkWinner() && board.allCellsMarked()){
+            return true;
+        }
+
+        return false;
     }
 
     return { userInput };
