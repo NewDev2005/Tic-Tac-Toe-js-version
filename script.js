@@ -215,7 +215,7 @@ function domController(){
     }
 
 
-    const userInput = () => {
+    const playGame = () => {
         const form = document.querySelector("#form");
         const playerOneName = form.elements["player1-name"];
         const playerTwoName = form.elements["player2-name"];
@@ -314,9 +314,9 @@ function domController(){
        });
     }
 
-    return { userInput };
+    return { playGame };
 
 }
 
 game = domController();
-game.userInput();
+game.playGame();
