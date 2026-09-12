@@ -227,7 +227,7 @@ function domController(){
 
         e.currentTarget.firstChild.innerHTML = board.previousModifiedCellMark();
         board.modifyCellAt(cellCoord, board.previousModifiedCellMark());
-        displayPlayerTurn();
+        displayMessage();
     }
 
     function whoseTurn(){
@@ -238,11 +238,26 @@ function domController(){
         }
     }
 
-    function displayPlayerTurn(){
+    function displayMessage(){
         const para = document.querySelector("#message").firstChild;
-        para.innerHTML = whoseTurn();
+        if (checkWinner()){
+            para.innerHTML = checkWinner();
+        } else {
+            para.innerHTML = whoseTurn();
+        }
     }
 
+    function checkWinner(){
+        if (board.checkRows("X") || board.checkColumns("X") || board.checkDiagonals("X")){
+            return `${player1.getUsername()} WON!! Let's Gooooo BBY...`;
+        }
+
+        if (board.checkRows("O") || board.checkColumns("O") || board.checkDiagonals("O")) {
+            return `${player2.getUsername()} WON!! Let's Gooooo BBY...`;
+        }
+
+        return false
+    }
 
     return { userInput };
 
