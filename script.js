@@ -279,14 +279,3 @@ function domController(){
 
 game = domController();
 game.userInput();
-
-// board = gameBoard();
-// board.modifyCellAt([0,0], "X")
-// board.modifyCellAt([1,1], "");
-// board.modifyCellAt([2,2], "X");
-
-// if (board.checkDiagonals("X")){
-//     console.log("found a match");
-// } else {
-//     console.log("no match found");
-// }
