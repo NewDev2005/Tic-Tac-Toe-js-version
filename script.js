@@ -14,7 +14,6 @@ function gameBoard(){
         }
     }
     createGrid();
-    // const getBoard = () => board;
 
     function getCellAt(coord) {
         let desiredCell;
