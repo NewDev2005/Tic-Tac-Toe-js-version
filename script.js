@@ -28,9 +28,15 @@ function gameBoard(){
         return desiredCell;
     }
 
+    function resetLastModifiedCellsTimeline(){
+        while (lastModifiedCells.length > 0) {
+            lastModifiedCells.pop();
+        }
+    }
+
     const spotTaken = (coord) => {
         cell = getCellAt(coord);
-        
+
         for(let i = 0; i < lastModifiedCells.length; i++){
             if (lastModifiedCells[i] === cell){
                 return true;
@@ -73,6 +79,8 @@ function gameBoard(){
                 }
             })
         })
+
+        resetLastModifiedCellsTimeline();
     }
 
     const checkRows = (mark) => {
@@ -189,24 +197,18 @@ function domController(){
         const messageContainer = document.createElement("div");
         const btnContainer = document.createElement("div");
         const childDiv1 = document.createElement("div");
-        const childDiv2 = document.createElement("div");
         const playAgainBtn = document.createElement("button");
-        const resetBtn = document.createElement("button");
         let msgPara =  document.createElement("p");
         msgPara.innerHTML = whoseTurn();
         btnContainer.setAttribute("id", "btn-container");
         boardContainer.setAttribute("id", "board-container");
         messageContainer.setAttribute("id", "message");
         playAgainBtn.setAttribute("id", "play-again");
-        resetBtn.setAttribute("id", "reset-btn")
         playAgainBtn.innerHTML = "Play Again";
-        resetBtn.innerHTML = "Reset Board";
         // mainContainer = document.querySelector("#main-container");
 
         childDiv1.appendChild(playAgainBtn);
-        childDiv2.appendChild(resetBtn);
         btnContainer.appendChild(childDiv1);
-        btnContainer.appendChild(childDiv2);
         mainContainer.appendChild(messageContainer);
         messageContainer.appendChild(msgPara);
         mainContainer.appendChild(boardContainer);
@@ -231,6 +233,7 @@ function domController(){
             inputContainer.remove();
             displayBoard();
             registerMove();
+            playAgain();
            
         });
     }
@@ -299,7 +302,20 @@ function domController(){
     }
 
     function playAgain(){
+        const para = document.querySelector("#message").firstChild;
+        const btn = document.querySelector("#play-again");
+        btn.addEventListener("click", () => {
+            board.reset();
+            resetDom();
+            para.innerHTML = `${player1.getUsername()}'s turn...`;
+        });
+    }
 
+    function resetDom(){
+       const cells = document.querySelectorAll(".cell");
+       cells.forEach((cell) => {
+        cell.firstChild.innerHTML = "";
+       });
     }
 
     return { userInput };
