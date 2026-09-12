@@ -65,3 +65,41 @@ body{
     justify-content: center;
     gap: 20px;
 }
+
+#message:first-child{
+    font-family: monospace;
+    font-size: 20px;
+}
+
+#submit {
+    background-color: rgb(3, 112, 3);
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition-duration: 0.5s;
+}
+
+#submit:hover {
+    background-color: rgb(3, 163, 3);
+}
+
+#reset {
+    background-color: rgb(141, 3, 3);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition-duration: 0.5s;
+    margin: 7px;
+    border: none;
+}
+
+#reset:hover {
+    background-color: rgb(204, 0, 0);
+}
