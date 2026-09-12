@@ -175,10 +175,16 @@ function domController(){
 
 
     function displayBoard() {
-        boardContainer = document.createElement("div");
+        const boardContainer = document.createElement("div");
+        const messageContainer = document.createElement("div");
+        let msgPara =  document.createElement("p");
+        msgPara.innerHTML = whoseTurn();
         boardContainer.setAttribute("id", "board-container");
+        messageContainer.setAttribute("id", "message");
         // mainContainer = document.querySelector("#main-container");
 
+        mainContainer.appendChild(messageContainer);
+        messageContainer.appendChild(msgPara);
         mainContainer.appendChild(boardContainer);
         buildGrid(boardContainer);
     }
@@ -214,13 +220,27 @@ function domController(){
 
     function attachEvent(e){
         console.log(e.currentTarget);
-        const cellCoord = [Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])]
+        const cellCoord = [Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])];
         if (board.spotTaken(cellCoord)){
-            return 
+            return;
         }
 
         e.currentTarget.firstChild.innerHTML = board.previousModifiedCellMark();
         board.modifyCellAt(cellCoord, board.previousModifiedCellMark());
+        displayPlayerTurn();
+    }
+
+    function whoseTurn(){
+        if (board.previousModifiedCellMark() === "X"){
+            return `${player1.getUsername()}'s turn...`;
+        } else{
+            return `${player2.getUsername()}'s turn...`;
+        }
+    }
+
+    function displayPlayerTurn(){
+        const para = document.querySelector("#message").firstChild;
+        para.innerHTML = whoseTurn();
     }
 
 
