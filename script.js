@@ -197,16 +197,16 @@ function domController(){
         const messageContainer = document.createElement("div");
         const btnContainer = document.createElement("div");
         const childDiv1 = document.createElement("div");
-        const playAgainBtn = document.createElement("button");
+        const resetBtn = document.createElement("button");
         let msgPara =  document.createElement("p");
         msgPara.innerHTML = whoseTurn();
         btnContainer.setAttribute("id", "btn-container");
         boardContainer.setAttribute("id", "board-container");
         messageContainer.setAttribute("id", "message");
-        playAgainBtn.setAttribute("id", "play-again");
-        playAgainBtn.innerHTML = "Play Again";
+        resetBtn.setAttribute("id", "reset");
+        resetBtn.innerHTML = "Reset";
 
-        childDiv1.appendChild(playAgainBtn);
+        childDiv1.appendChild(resetBtn);
         btnContainer.appendChild(childDiv1);
         mainContainer.appendChild(messageContainer);
         messageContainer.appendChild(msgPara);
@@ -300,7 +300,7 @@ function domController(){
 
     function playAgain(){
         const para = document.querySelector("#message").firstChild;
-        const btn = document.querySelector("#play-again");
+        const btn = document.querySelector("#reset");
         btn.addEventListener("click", () => {
             board.reset();
             resetDom();
