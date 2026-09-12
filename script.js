@@ -28,6 +28,17 @@ function gameBoard(){
         return desiredCell;
     }
 
+    const spotTaken = (coord) => {
+        cell = getCellAt(coord);
+        
+        for(let i = 0; i < lastModifiedCells.length; i++){
+            if (lastModifiedCells[i] === cell){
+                return true;
+            }
+        }
+        return false;
+    }
+
     const previousModifiedCellMark = () => {
         if(lastModifiedCells.length === 0){
             return "X";
@@ -97,7 +108,7 @@ function gameBoard(){
     }
 
 
-    return { modifyCellAt, checkColumns, checkRows, checkDiagonals, allCellsMarked, previousModifiedCellMark };
+    return { modifyCellAt, checkColumns, checkRows, checkDiagonals, allCellsMarked, previousModifiedCellMark, spotTaken };
 }
 
 
@@ -202,10 +213,15 @@ function domController(){
     }
 
     function attachEvent(e){
-        console.log(e.target);
+        console.log(e.currentTarget);
+        if (board.spotTaken([Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])])){
+            return 
+        }
+
         e.currentTarget.firstChild.innerHTML = board.previousModifiedCellMark();
         board.modifyCellAt([Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])], board.previousModifiedCellMark());
     }
+
 
     return { userInput };
 
