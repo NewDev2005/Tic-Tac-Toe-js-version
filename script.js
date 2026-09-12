@@ -65,6 +65,16 @@ function gameBoard(){
         return true;
     }
 
+    const reset = () => {
+        board.forEach((cells) => {
+            cells.forEach((cell) => {
+                if (cell.readMark() != ""){
+                    cell.setMark("");
+                }
+            })
+        })
+    }
+
     const checkRows = (mark) => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -108,7 +118,7 @@ function gameBoard(){
     }
 
 
-    return { modifyCellAt, checkColumns, checkRows, checkDiagonals, allCellsMarked, previousModifiedCellMark, spotTaken };
+    return { modifyCellAt, checkColumns, checkRows, checkDiagonals, allCellsMarked, previousModifiedCellMark, spotTaken, reset };
 }
 
 
@@ -177,15 +187,30 @@ function domController(){
     function displayBoard() {
         const boardContainer = document.createElement("div");
         const messageContainer = document.createElement("div");
+        const btnContainer = document.createElement("div");
+        const childDiv1 = document.createElement("div");
+        const childDiv2 = document.createElement("div");
+        const playAgainBtn = document.createElement("button");
+        const resetBtn = document.createElement("button");
         let msgPara =  document.createElement("p");
         msgPara.innerHTML = whoseTurn();
+        btnContainer.setAttribute("id", "btn-container");
         boardContainer.setAttribute("id", "board-container");
         messageContainer.setAttribute("id", "message");
+        playAgainBtn.setAttribute("id", "play-again");
+        resetBtn.setAttribute("id", "reset-btn")
+        playAgainBtn.innerHTML = "Play Again";
+        resetBtn.innerHTML = "Reset Board";
         // mainContainer = document.querySelector("#main-container");
 
+        childDiv1.appendChild(playAgainBtn);
+        childDiv2.appendChild(resetBtn);
+        btnContainer.appendChild(childDiv1);
+        btnContainer.appendChild(childDiv2);
         mainContainer.appendChild(messageContainer);
         messageContainer.appendChild(msgPara);
         mainContainer.appendChild(boardContainer);
+        mainContainer.appendChild(btnContainer);
         buildGrid(boardContainer);
     }
 
@@ -271,6 +296,10 @@ function domController(){
         }
 
         return false;
+    }
+
+    function playAgain(){
+
     }
 
     return { userInput };
