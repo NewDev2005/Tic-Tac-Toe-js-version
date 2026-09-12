@@ -205,7 +205,6 @@ function domController(){
         messageContainer.setAttribute("id", "message");
         playAgainBtn.setAttribute("id", "play-again");
         playAgainBtn.innerHTML = "Play Again";
-        // mainContainer = document.querySelector("#main-container");
 
         childDiv1.appendChild(playAgainBtn);
         btnContainer.appendChild(childDiv1);
@@ -218,8 +217,6 @@ function domController(){
 
 
     const userInput = () => {
-        const startGameBtn = document.querySelector("#submit");
-        // const inputContainer = document.querySelector("#input-container");
         const form = document.querySelector("#form");
         const playerOneName = form.elements["player1-name"];
         const playerTwoName = form.elements["player2-name"];
@@ -299,10 +296,6 @@ function domController(){
         }
 
         return false;
-    }
-
-    function restrictMove(){
-
     }
 
     function playAgain(){
