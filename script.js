@@ -249,7 +249,7 @@ function domController(){
     function attachEvent(e){
         console.log(e.currentTarget);
         const cellCoord = [Number(e.currentTarget.dataset.coord[0]), Number(e.currentTarget.dataset.coord[2])];
-        if (board.spotTaken(cellCoord)){
+        if (board.spotTaken(cellCoord) || checkDraw() || checkWinner()){
             return;
         }
 
@@ -299,6 +299,10 @@ function domController(){
         }
 
         return false;
+    }
+
+    function restrictMove(){
+
     }
 
     function playAgain(){
